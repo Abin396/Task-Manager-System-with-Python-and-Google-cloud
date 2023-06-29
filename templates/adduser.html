@@ -1,0 +1,27 @@
+{% extends "home.html" %}
+{% block table %}
+
+
+<form  action="/adduser/{{baby_id}}" method="post">
+    <div class= "signup-header">
+      <h2>Add User </h2>
+    </div>
+    <section class="twelve">
+      <div class="signup-container">
+          <h3>User Details</h3>
+          <div class="signup-row">
+              <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>
+              <div class="signup-col1">
+                  <label class="signup-label">User Email</label>
+              </div>
+              <div class="signup-col2">
+                  <input class="signup-input" type="email" name="email" required placeholder="Enter email">
+              </div>
+          </div>
+          <div class="button">
+            <input class="signup-input" type="submit" value="Create" id="btn1">
+        </div>  
+    </div>  
+</section>
+</form>
+{% endblock %}

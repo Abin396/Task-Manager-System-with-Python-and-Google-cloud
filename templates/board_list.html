@@ -1,0 +1,26 @@
+{% extends "home.html" %}
+{% block table %}
+<div class= "signup-header">
+  <h2>List of Boards </h2>
+</div>
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Board Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for Taskboard in Taskboard %}
+  <tr>
+    {% if user_data['email'] == Taskboard.owner %}
+    <td><a href="/viewboard/{{Taskboard.id}} "> {{ Taskboard.name }}</a></td>
+    <td><a href="/deleteboard/{{Taskboard.id}}" style="color: red;"> Delete </a></td>
+    <td><a href="/renameboard/{{Taskboard.id}}"> Rename </a></td>
+    {% else%}
+    <td><a href="/viewboard/{{Taskboard.id}} "> {{ Taskboard.name }}</a></td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</tbody>
+{% endblock %}

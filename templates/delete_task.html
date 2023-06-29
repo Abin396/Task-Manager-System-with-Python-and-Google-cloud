@@ -1,0 +1,9 @@
+{% extends "home.html" %}
+{% block table %}
+
+<form action="/delete_task/{{ Task.id }}" method="POST">
+    <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>
+    <input type="submit" name="submit" value="Delete" class="formbutton"
+        style="border-color: crimson; border-style: solid;">
+</form>
+{% endblock %}

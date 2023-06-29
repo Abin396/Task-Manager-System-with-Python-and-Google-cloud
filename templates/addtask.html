@@ -1,0 +1,58 @@
+{% extends "home.html" %}
+{% block table %}
+
+<form  action="/addtask/{{baby_id}}" method="post">
+  <div class= "signup-header">
+    <h2>Add Task </h2>
+  </div>
+  <section class="twelve">
+    <div class="signup-container">
+        <h3>Task Details</h3>
+        <div class="signup-row">
+            <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>
+            <div class="signup-col1">
+                <label class="signup-label">Task Title</label>
+            </div>
+            <div class="signup-col2">
+                <input class="signup-input" type="text" name="title" required placeholder="Enter Task">
+            </div>
+        </div>
+        <div class="signup-row">
+            <div class="signup-col1">
+                <label class="signup-label">Due-Date</label>
+            </div>
+            <div class="signup-col2">
+                <input class="signup-input" type="date" name="due_date" required placeholder="Enter date">
+            </div>
+        </div>
+        <div class="signup-row">
+            <div class="signup-col1">
+                <label class="signup-label">Status</label>
+            </div>
+            <div class="signup-col2">
+                    <select name="status" id="status" style="margin-right: 1em; min-width: 180px;">
+                        <option value="not_complete" selected="selected">Not Complete</option>
+                        <option value="complete">Complete</option>
+                    </select><br>
+            </div>
+        </div>
+        <div class="signup-row">
+            <div class="signup-col1">
+                <label class="signup-label" >Assign Task</label>
+            </div>
+            <div class="signup-col2">
+                <select name="assigned" id="assigned" style="margin-right: 1em; min-width: 180px;">
+                    <option value="unassigned">Unassigned</option>
+                    {% for user in user %}
+                    <option value="{{ user.email }}"> {{ user.email }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+        </div>
+        <div class="button">
+            <input class="signup-input" type="submit" value="Create" id="btn1">
+        </div>  
+    </div>  
+</section>
+</form>
+{% endblock %}

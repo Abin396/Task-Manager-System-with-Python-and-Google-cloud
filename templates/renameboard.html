@@ -1,0 +1,9 @@
+{% extends "home.html" %}
+{% block table %}
+
+<form action="/renameboard/{{ baby_id }}" method="POST" id="rename-form">
+    <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>
+    <input type="text" name="name" placeholder="Enter board name" required>
+    <input type="submit" name="submit" value="Submit" class="button1e">
+</form>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "home.html" %}
+{% block table %}
+<div class ="box1">
+    <h2>Task Board: {{ Taskboard.name }}</h2>
+    <div class ="box2">
+        <p>Owner : {{ Taskboard.owner }}</p>
+        <p> User: {{ user_data['name'] }}</p>
+        {% if user_data['email'] == Taskboard.owner %}
+        <div id = 'taskuser'>
+            <div><a href="/adduser/{{Taskboard.id}}" style="color: white"><b>Add User</b></a></div>
+            <div><a href="/addtask/{{Taskboard.id}} " style="color: white"><b>Add Task</b></a></div>
+        </div>
+        {% else%}
+        <div></div>
+        {% endif%}
+    </div>
+</div>
+
+<div class = 'status'> 
+    <div class= "signup-header">
+        <h2>Task Status </h2>
+      </div>
+    <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Active Tasks</th>
+            <th>Completed Tasks</th>
+            <th>Total Task</th>
+            <th>Total Current Completed </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>  
+        <tr>
+            <td><p style="color: white;">{{ Taskboard.task_active }}</p></td>
+            <td><p style="color: white;">{{ Taskboard.task_completed }}</p></td>
+            <td><p style="color: white;">{{ Taskboard.total_task }}</p></td>
+            <td><p style="color: white;">{{ Taskboard.currenttask_completed }}</p></td>
+        </tr>
+      </tbody>
+   </table>
+</div>
+
+<div class= "signup-header">
+    <h2>Task </h2>
+  </div>
+ 
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Task Title</th>
+        <th>Due Date</th>
+        <th>Assigned User</th>
+        <th>Status</th>
+        <th>Task Update </th>
+        <th>Current Completed Time </th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+      {% for Task in Task %}
+      {% if Task.assigned != "unassigned" %}
+      <tr>
+      {% elif Task.assigned == "unassigned" %}
+      <tr class="unassigned">
+        {% endif %}
+            <td><p style="color: white;">{{ Task.title }}</p></td>
+            <td><p style="color: white;">{{ Task.due_date }}</p></td>
+            <td><p style="color: white;">{{ Task.assigned }}</p></td>
+                {% if Task.assigned == Taskboard.owner %}
+                <strong><p style="color: white;">(Owner)</p></strong>
+                {% endif %}
+            </td>
+            <td><p style="color: white;">{{ Task.status }}</p></td>
+            <td>
+                {% if Task.status == 'not_complete' %}
+                <form action="/check_task" method="POST"> 
+                    <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>    
+                    <input type="number" name="id" value="{{ Task.id }}" hidden>
+                    <input type="text" name="status" value="complete" hidden>
+                    <input type="submit" name="submit" value="Complete" class="button1e" id="button1ed" style="background-color: green ;">
+                </form>
+                {% elif Task.status == 'complete' %}
+                <form action="/check_task" method="POST">
+                    <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>
+                    <input type="number" name="id" value="{{ Task.id}}" hidden>
+                    <input type="text" name="status" value="not_complete" hidden>
+                    <input type="submit" name="submit" value="Not Complete" class="button1e" style="background-color: red;">
+                </form>
+                {% endif %}
+            </td>
+            <td><p style="color: white;">{{ Task.completed_time }}</p></td>
+
+            {% if user_data['email'] == Taskboard.owner and user.email != Taskboard.owner %}
+            <td>
+              <form action="/delete_task/{{ Task.id }}" method="POST">
+                <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>
+                <input type="submit" name="submit" value="Delete" class="button1e"style="border-color: red;">
+              </form>
+            </td>
+            <td><a href="" style="color: blue;"> Edit </a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </tr>
+  </table>
+
+      <div class ="user">
+        <div class= "signup-header">
+            <h2>User Data </h2>
+          </div>
+          <table class="table">
+            <thead class="thead-inverse">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for user in user %}
+            <tr>
+                <td><p style="color: white;">{{ user.name }}</p></td>
+                <td><p style="color: white;">{{ user.email }}
+                    {% if user.email == Taskboard.owner %}
+                 <b>Owner</b>
+                 {% endif %}</p>
+                </td>
+                {% if user_data['email'] == Taskboard.owner and user.email != Taskboard.owner %}
+                <td>
+                    <form action="/delete_user/{{ user.email }}" method="POST">
+                        <input type="number" name="Taskboard_id" value="{{ baby_id }}" hidden>
+                        <input type="submit" name="submit" value="Delete" class="button1e" style="border-color: crimson;">
+                    </form>
+                </td>
+                {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+     </table>
+    
+    </div>
+    
+    
+    {% endblock %}
